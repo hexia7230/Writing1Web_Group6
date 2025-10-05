@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(Company Name) - (Product Name)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+        }
+
+        header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255,255,255,0.9);
+            color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            display: none;
+            padding: 30px 20px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10%);
+            background-size: 50px 50px;
+            animation: float 20s linear infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        h2 {
+            color: #27ae60;
+            font-size: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #2ecc71, transparent);
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(46,204,113,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .placeholder {
+            color: #95a5a6;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .product-item {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(46,204,113,0.3);
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+        }
+
+        .testimonial {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe8cc 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 60px;
+            color: #f39c12;
+            opacity: 0.3;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .social-btn.facebook { background: linear-gradient(135deg, #3b5998, #2d4373); }
+        .social-btn.twitter { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+        .social-btn.instagram { background: linear-gradient(135deg, #e1306c, #c13584); }
+        .social-btn.youtube { background: linear-gradient(135deg, #ff0000, #cc0000); }
+
+        .order-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e8f5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #2ecc71;
+            box-shadow: 0 0 10px rgba(46,204,113,0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46,204,113,0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46,204,113,0.4);
+        }
+
+        .floating-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            animation: pulse 2s infinite;
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #2ecc71, #27ae60);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2ecc71;
+            border: 3px solid white;
+            box-shadow: 0 0 10px rgba(46,204,113,0.5);
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">(Company Logo / Name)</div>
+            <nav>
+                <button class="nav-btn active" onclick="showSection('home')">Home</button>
+                <button class="nav-btn" onclick="showSection('definition')">Definition</button>
+                <button class="nav-btn" onclick="showSection('description')">Description</button>
+                <button class="nav-btn" onclick="showSection('analogy')">Analogy</button>
+                <button class="nav-btn" onclick="showSection('argument')">Argument</button>
+                <button class="nav-btn" onclick="showSection('products')">Products</button>
+                <button class="nav-btn" onclick="showSection('classification')">Classification</button>
+                <button class="nav-btn" onclick="showSection('compare')">Compare</button>
+                <button class="nav-btn" onclick="showSection('background')">About Us</button>
+                <button class="nav-btn" onclick="showSection('order')">Order</button>
+                <button class="nav-btn" onclick="showSection('social')">Social</button>
+                <button class="nav-btn" onclick="showSection('testimonials')">Reviews</button>
+            </nav>
+        </header>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h1>(Main Product Title)</h1>
+                <p class="placeholder">(Hero tagline text - environmental innovation for better tomorrow)</p>
+            </div>
+        </div>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="card">
+                <h2>(Welcome Title)</h2>
+                <p class="placeholder">(Introduction paragraph 1)</p>
+                <p class="placeholder">(Introduction paragraph 2)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Key Features Title)</h2>
+                <div class="product-grid">
+                    <div class="product-item">
+                        <h3>(Feature 1 Title)</h3>
+                        <p class="placeholder">(Feature 1 description)</p>
+                    </div>
+                    <div class="product-item">
+                        <h3>(Feature 2 Title)</h3>
+                        <p class="placeholder">(Feature 2 description)</p>
+                    </div>
+                    <div class="product-item">
+                        <h3>(Feature 3 Title)</h3>
+                        <p class="placeholder">(Feature 3 description)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Definition Section -->
+        <section id="definition" class="section">
+            <div class="card">
+                <h2>(Definition Title)</h2>
+                <p class="placeholder">(Definition paragraph - what is this product)</p>
+                <p class="placeholder">(Technical definition)</p>
+                <div style="margin-top: 20px;">
+                    <span class="badge">(Tag 1)</span>
+                    <span class="badge">(Tag 2)</span>
+                    <span class="badge">(Tag 3)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Description Section -->
+        <section id="description" class="section">
+            <div class="card">
+                <h2>(Description Title)</h2>
+                <p class="placeholder">(Detailed description paragraph 1)</p>
+                <p class="placeholder">(Detailed description paragraph 2)</p>
+                <p class="placeholder">(Detailed description paragraph 3)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(How It Works Title)</h2>
+                <p class="placeholder">(Working mechanism description)</p>
+            </div>
+        </section>
+
+        <!-- Analogy Section -->
+        <section id="analogy" class="section">
+            <div class="card">
+                <h2>(Analogy Title)</h2>
+                <p class="placeholder">(Analogy explanation - comparing product to familiar concept)</p>
+                <p class="placeholder">(Extended analogy explanation)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Real World Example Title)</h2>
+                <p class="placeholder">(Real world example description)</p>
+            </div>
+        </section>
+
+        <!-- Argument Section -->
+        <section id="argument" class="section">
+            <div class="card">
+                <h2>(Why Choose Us Title)</h2>
+                <p class="placeholder">(Argument point 1)</p>
+                <p class="placeholder">(Argument point 2)</p>
+                <p class="placeholder">(Argument point 3)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Environmental Impact Title)</h2>
+                <p class="placeholder">(Environmental benefit argument)</p>
+                <p class="placeholder">(Sustainability argument)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Cost Effectiveness Title)</h2>
+                <p class="placeholder">(Cost benefit analysis)</p>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <div class="card">
+                <h2>(Product Variants Title)</h2>
+                
+                <div class="product-grid">
+                    <div class="product-item">
+                        <h3>(Variant 1 Name)</h3>
+                        <p class="placeholder">(Variant 1 description)</p>
+                        <p class="placeholder"><strong>(Price 1)</strong></p>
+                    </div>
+                    
+                    <div class="product-item">
+                        <h3>(Variant 2 Name)</h3>
+                        <p class="placeholder">(Variant 2 description)</p>
+                        <p class="placeholder"><strong>(Price 2)</strong></p>
+                    </div>
+                    
+                    <div class="product-item">
+                        <h3>(Variant 3 Name)</h3>
+                        <p class="placeholder">(Variant 3 description)</p>
+                        <p class="placeholder"><strong>(Price 3)</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>(Use Cases Title)</h2>
+                <p class="placeholder">(Use case 1)</p>
+                <p class="placeholder">(Use case 2)</p>
+                <p class="placeholder">(Use case 3)</p>
+                <p class="placeholder">(Use case 4)</p>
+            </div>
+        </section>
+
+        <!-- Classification Section -->
+        <section id="classification" class="section">
+            <div class="card">
+                <h2>(Product Classification Title)</h2>
+                
+                <div style="margin: 20px 0;">
+                    <h3>(Category 1 Title)</h3>
+                    <p class="placeholder">(Category 1 description)</p>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <h3>(Category 2 Title)</h3>
+                    <p class="placeholder">(Category 2 description)</p>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <h3>(Category 3 Title)</h3>
+                    <p class="placeholder">(Category 3 description)</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>(Technical Specifications Title)</h2>
+                <p class="placeholder">(Spec 1): (Value 1)</p>
+                <p class="placeholder">(Spec 2): (Value 2)</p>
+                <p class="placeholder">(Spec 3): (Value 3)</p>
+                <p class="placeholder">(Spec 4): (Value 4)</p>
+            </div>
+        </section>
+
+        <!-- Compare Section -->
+        <section id="compare" class="section">
+            <div class="card">
+                <h2>(Comparison Title)</h2>
+                <p class="placeholder">(Comparison introduction text)</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>(Feature)</th>
+                            <th>(Our Product)</th>
+                            <th>(Traditional)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>(Feature 1)</td>
+                            <td>(Our value 1)</td>
+                            <td>(Their value 1)</td>
+                        </tr>
+                        <tr>
+                            <td>(Feature 2)</td>
+                            <td>(Our value 2)</td>
+                            <td>(Their value 2)</td>
+                        </tr>
+                        <tr>
+                            <td>(Feature 3)</td>
+                            <td>(Our value 3)</td>
+                            <td>(Their value 3)</td>
+                        </tr>
+                        <tr>
+                            <td>(Feature 4)</td>
+                            <td>(Our value 4)</td>
+                            <td>(Their value 4)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h2>(Competitive Advantages Title)</h2>
+                <p class="placeholder">(Advantage 1)</p>
+                <p class="placeholder">(Advantage 2)</p>
+                <p class="placeholder">(Advantage 3)</p>
+            </div>
+        </section>
+
+        <!-- Background Section -->
+        <section id="background" class="section">
+            <div class="card">
+                <h2>(Company Background Title)</h2>
+                <p class="placeholder">(Company history paragraph 1)</p>
+                <p class="placeholder">(Company history paragraph 2)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Our Mission Title)</h2>
+                <p class="placeholder">(Mission statement)</p>
+                <p class="placeholder">(Vision statement)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Company Timeline Title)</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>(Year 1)</h3>
+                        <p class="placeholder">(Milestone 1)</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>(Year 2)</h3>
+                        <p class="placeholder">(Milestone 2)</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>(Year 3)</h3>
+                        <p class="placeholder">(Milestone 3)</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>(Present)</h3>
+                        <p class="placeholder">(Current status)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>(Our Team Title)</h2>
+                <p class="placeholder">(Team description)</p>
+            </div>
+        </section>
+
+        <!-- Order Section -->
+        <section id="order" class="section">
+            <div class="card">
+                <h2>(How to Order Title)</h2>
+                <p class="placeholder">(Order instructions paragraph)</p>
+                
+                <div class="order-form">
+                    <form onsubmit="return handleOrder(event)">
+                        <div class="form-group">
+                            <label>(Name Label)</label>
+                            <input type="text" placeholder="(Name placeholder)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>(Email Label)</label>
+                            <input type="email" placeholder="(Email placeholder)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>(Phone Label)</label>
+                            <input type="tel" placeholder="(Phone placeholder)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>(Product Selection Label)</label>
+                            <select required>
+                                <option value="">(Select option)</option>
+                                <option>(Product variant 1)</option>
+                                <option>(Product variant 2)</option>
+                                <option>(Product variant 3)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>(Quantity Label)</label>
+                            <input type="number" min="1" value="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>(Address Label)</label>
+                            <textarea rows="3" placeholder="(Address placeholder)" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>(Additional Notes Label)</label>
+                            <textarea rows="3" placeholder="(Notes placeholder)"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">(Submit Order Button)</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>(Contact Information Title)</h2>
+                <p class="placeholder">(Contact info 1)</p>
+                <p class="placeholder">(Contact info 2)</p>
+                <p class="placeholder">(Contact info 3)</p>
+            </div>
+        </section>
+
+        <!-- Social Media Section -->
+        <section id="social" class="section">
+            <div class="card">
+                <h2>(Follow Us Title)</h2>
+                <p class="placeholder">(Social media introduction text)</p>
+                
+                <div class="social-links">
+                    <div class="social-btn facebook">f</div>
+                    <div class="social-btn twitter">𝕏</div>
+                    <div class="social-btn instagram">📷</div>
+                    <div class="social-btn youtube">▶</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>(Community Title)</h2>
+                <p class="placeholder">(Community engagement text)</p>
+                <p class="placeholder">(Social media handles)</p>
+            </div>
+            
+            <div class="card">
+                <h2>(Latest Updates Title)</h2>
+                <div style="margin: 15px 0;">
+                    <p class="placeholder"><strong>(Update 1 date)</strong></p>
+                    <p class="placeholder">(Update 1 content)</p>
+                </div>
+                <div style="margin: 15px 0;">
+                    <p class="placeholder"><strong>(Update 2 date)</strong></p>
+                    <p class="placeholder">(Update 2 content)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="section">
+            <div class="card">
+                <h2>(Customer Reviews Title)</h2>
+                <p class="placeholder">(Reviews introduction)</p>
+                
+                <div class="testimonial">
+                    <p class="placeholder">(Review text 1)</p>
+                    <p style="margin-top: 10px; font-weight: 600; color: #27ae60;">- (Customer name 1)</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="placeholder">(Review text 2)</p>
+                    <p style="margin-top: 10px; font-weight: 600; color: #27ae60;">- (Customer name 2)</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="placeholder">(Review text 3)</p>
+                    <p style="margin-top: 10px; font-weight: 600; color: #27ae60;">- (Customer name 3)</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="placeholder">(Review text 4)</p>
+                    <p style="margin-top: 10px; font-weight: 600; color: #27ae60;">- (Customer name 4)</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>(Rating Summary Title)</h2>
+                <p class="placeholder">(Average rating): ⭐⭐⭐⭐⭐</p>
+                <p class="placeholder">(Total reviews): (Number)</p>
+                <p class="placeholder">(Satisfaction rate): (Percentage)%</p>
+            </div>
+        </section>
+
+        <div class="floating-icon" onclick="showSection('order')">
+            🛒
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            const buttons = document.querySelectorAll('.nav-btn');
+            
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleOrder(event) {
+            event.preventDefault();
+            alert('(Order confirmation message)');
+            return false;
+        }
+
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'rotate(360deg) scale(1.2)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 500);
+            });
+        });
+
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
